@@ -7,7 +7,7 @@ addons:
   ssh_known_hosts: 46.101.222.96
 
 env:
-  - DOCKER_IMAGE_NAME="r.3r1.co/honratha/gowebapp"
+  - DOCKER_IMAGE_NAME="r.3r1.co/honratha/gowebapp:$TRAVIS_BUILD_NUMBER"
 
 script: go build -o main
 
@@ -27,4 +27,4 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: ssh core@46.101.222.96 'docker rm $(docker stop $(docker ps -a -q --filter="name=passwordservice" --format="{{.ID}}")); docker pull $DOCKER_IMAGE_NAME; docker run -d -p 9090:9090 --name passwordservice $DOCKER_IMAGE_NAME'
+    script: ssh core@46.101.222.96 'docker service update --image $DOCKER_IMAGE_NAME passwordservice'
