@@ -1,4 +1,4 @@
-FROM alpine
+FROM centos
 MAINTAINER Eric Muellenbach <emuellenbach@gmx.de>
 ADD main main
 EXPOSE 80
