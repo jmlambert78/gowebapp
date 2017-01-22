@@ -1,4 +1,14 @@
+sudo: required
+
 language: go
-script: go build
+
+services:
+  - docker
+
+script: go build -o main
+
+after_success:
+  - docker build -t honratha/gowebapp .
+
 notifications:
   email: false
