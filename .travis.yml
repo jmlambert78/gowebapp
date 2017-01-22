@@ -8,7 +8,9 @@ services:
 script: go build -o main
 
 after_success:
-  - docker build -t honratha/gowebapp .
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" r.3r1.co
+  - docker build -t r.3r1.co/honratha/gowebapp .
+  - docker push r.3r1.co/honratha/gowebapp
 
 notifications:
   email: false
