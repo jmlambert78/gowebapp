@@ -21,8 +21,7 @@ before_deploy:
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
 - ssh-add /tmp/deploy_rsa
-- ssh core@46.101.222.96 'docker pull $DOCKER_IMAGE_NAME'
 
 deploy:
   - provider: script
-    script: ssh core@46.101.222.96 'docker service update --image $DOCKER_IMAGE_NAME passwordservice'
+    script: ssh core@46.101.222.96 'docker pull $DOCKER_IMAGE_NAME && docker service update --image $DOCKER_IMAGE_NAME passwordservice'
