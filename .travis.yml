@@ -1,16 +1,25 @@
 language: go
-
 sudo: required
-
 services:
-  - docker
+- docker
+
+addons:
+  ssh_known_hosts: 46.101.222.96
 
 script: go build -o main
 
 after_success:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" r.3r1.co
-  - docker build -t r.3r1.co/honratha/gowebapp .
-  - docker push r.3r1.co/honratha/gowebapp
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" r.3r1.co
+- docker build -t r.3r1.co/honratha/gowebapp .
+- docker push r.3r1.co/honratha/gowebapp
 
 notifications:
   email: false
+
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_d3751784d1e2_key -iv $encrypted_d3751784d1e2_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
+
+deploy:
+  - provider: script
+    script: ssh core@46.101.222.96 'ls -l; ps -aux; whoami'
