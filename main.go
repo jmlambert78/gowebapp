@@ -40,7 +40,6 @@ func RandStringBytesMaskImprSrc(n int) string {
 
 func handleRequest(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm() // parse arguments, you have to call this by yourself
-	fmt.Fprintf(w, "Output: ")
 	if val, ok := r.Form["l"]; ok {
 		if s, err := strconv.Atoi(val[0]); err == nil {
 			fmt.Fprintf(w, RandStringBytesMaskImprSrc(s))

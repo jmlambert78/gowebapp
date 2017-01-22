@@ -27,4 +27,4 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: ssh core@46.101.222.96 'docker service update --image $DOCKER_IMAGE_NAME passwordservice'
+    script: ssh core@46.101.222.96 'docker pull $DOCKER_IMAGE_NAME && docker service update --image $DOCKER_IMAGE_NAME passwordservice'
