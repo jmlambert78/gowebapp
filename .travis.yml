@@ -27,4 +27,4 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: ssh core@46.101.222.96 'docker rm $(docker stop $(docker ps -a -q --filter ancestor=$DOCKER_IMAGE_NAME --format="{{.ID}}")); docker pull $DOCKER_IMAGE_NAME; docker run -d -p 9090:9090 $DOCKER_IMAGE_NAME'
+    script: ssh core@46.101.222.96 'docker rm $(docker stop $(docker ps -a -q --filter="name=passwordservice" --format="{{.ID}}")); docker pull $DOCKER_IMAGE_NAME; docker run -d -p 9090:9090 --name passwordservice $DOCKER_IMAGE_NAME'
