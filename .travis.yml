@@ -6,12 +6,15 @@ services:
 addons:
   ssh_known_hosts: 46.101.222.96
 
+env:
+  - DOCKER_IMAGE_NAME="r.3r1.co/honratha/gowebapp"
+
 script: go build -o main
 
 after_success:
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" r.3r1.co
-- docker build -t r.3r1.co/honratha/gowebapp .
-- docker push r.3r1.co/honratha/gowebapp
+- docker build -t $DOCKER_IMAGE_NAME .
+- docker push $DOCKER_IMAGE_NAME
 
 notifications:
   email: false
@@ -24,4 +27,4 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: ssh core@46.101.222.96 'docker pull r.3r1.co/honratha/gowebapp; docker run -d -p 9090 r.3r1.co/honratha/gowebapp'
+    script: ssh core@46.101.222.96 'docker rm $(docker stop $(docker ps -a -q --filter ancestor=$DOCKER_IMAGE_NAME --format="{{.ID}}")); docker pull r.3r1.co/honratha/gowebapp; docker run -d -p 9090 r.3r1.co/honratha/gowebapp'
