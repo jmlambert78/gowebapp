@@ -49,7 +49,6 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	} else {
 		fmt.Fprintf(w, RandStringBytesMaskImprSrc(defaultPasswordLength))
 	}
-	fmt.Fprintf(w, "Hey Thomas!")
 }
 
 func main() {
